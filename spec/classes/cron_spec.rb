@@ -127,7 +127,46 @@ describe 'cron' do
         }
       end
 
-      context 'cron_users_deny_ensure => absent' do
+      context "manage_users_deny => true and users_deny => ['user1']" do
+        let(:params) do
+          {
+            manage_users_deny: true,
+            users_deny: ['user1']
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/cron.deny').with(
+            'ensure' => 'file'
+            'mode' => '0644',
+            'owner' => 'root',
+            'group' => 0,
+            'content' => File.read(fixtures('files/cron.deny-one-user'))
+          )
+        }
+      end
+
+      context "manage_users_deny => true and users_deny => ['user1','user2'] and allow_deny_mode => '0600'" do
+        let(:params) do
+          {
+            manage_users_deny: true,
+            users_deny: ['user1', 'user2'],
+            allow_deny_mode: '0600'
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/cron.deny').with(
+            'ensure' => 'file'
+            'mode' => '0600',
+            'owner' => 'root',
+            'group' => 0,
+            'content' => File.read(fixtures('files/cron.deny-two-users'))
+          )
+        }
+      end
+
+      context 'manage_users_deny => true and cron_users_deny_ensure => absent' do
         let(:params) do
           {
             manage_users_deny: true,
