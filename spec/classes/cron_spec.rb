@@ -141,16 +141,16 @@ describe 'cron' do
             'mode' => '0644',
             'owner' => 'root',
             'group' => 0,
-            'content' => File.read(fixtures('files/cron_one_user.deny'))
+            'content' => File.read(fixtures('files/cron.deny-one-user'))
           )
         }
       end
 
-      context "manage_users_deny => true and users_deny => ['user1', 'user2']  and allow_deny_mode => '0600'" do
+      context "manage_users_deny => true and users_deny => ['user1','user2'] and allow_deny_mode => '0600'" do
         let(:params) do
           {
             manage_users_deny: true,
-            users_deny: ['user1', 'user2']
+            users_deny: ['user1', 'user2'],
             allow_deny_mode: '0600'
           }
         end
@@ -161,7 +161,7 @@ describe 'cron' do
             'mode' => '0600',
             'owner' => 'root',
             'group' => 0,
-            'content' => File.read(fixtures('files/cron_two_user.deny'))
+            'content' => File.read(fixtures('files/cron.deny-two-users'))
           )
         }
       end
@@ -180,7 +180,6 @@ describe 'cron' do
           )
         }
       end
-
 
       context 'manage_crontab => true' do
         let(:params) do
